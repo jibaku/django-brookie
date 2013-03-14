@@ -31,7 +31,7 @@ def is_expired(self):
         else:
             image = 'img/admin/icon_clock.gif'
             extra = _(" (%s days left.)" % days_left)
-    return '<img src="%(admin_media)s%(image)s" />%(extra)s' % {'admin_media': settings.ADMIN_MEDIA_PREFIX,
+    return '<img src="%(admin_media)s%(image)s" />%(extra)s' % {'admin_media': settings.STATIC_URL,
                                                                'image': image,
                                                                'extra': extra,}
 is_expired.short_description = _('Payed?')
@@ -146,6 +146,7 @@ class InvoiceAdmin(admin.ModelAdmin):
                         self.date_hierarchy, self.search_fields,
                         self.list_select_related,
                         self.list_per_page,
+                        self.list_max_show_all,
                         self.list_editable,
                         self)
 
@@ -156,7 +157,7 @@ class InvoiceAdmin(admin.ModelAdmin):
             # Determine total and subtotal
             subtotal = Decimal(0)
             total = Decimal(0)
-            for invoice in cl.get_query_set().filter(status=4,
+            for invoice in cl.get_query_set(request).filter(status=4,
                                                      currency=currency):
                 subtotal += invoice.subtotal
                 total += invoice.total
@@ -169,7 +170,7 @@ class InvoiceAdmin(admin.ModelAdmin):
 
             subtotal = Decimal(0)
             total = Decimal(0)
-            for invoice in cl.get_query_set().filter(status__in=[1, 2, 3],
+            for invoice in cl.get_query_set(request).filter(status__in=[1, 2, 3],
                                                      currency=currency):
                 subtotal += invoice.subtotal
                 total += invoice.total
