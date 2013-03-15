@@ -5,7 +5,7 @@
 {% if change %}{% if not is_popup %}
 <ul class="object-tools">
     <li><a href="history/" class="historylink">{% trans "History" %}</a></li>
-    <li><a href="{% url generate-invoice object_id %}" class="historylink">{% trans "Generate PDF" %}</a></li>
+    <li><a href="{% url "generate-invoice" object_id %}" class="historylink">{% trans "Generate PDF" %}</a></li>
 </ul>
 {% endif %}{% endif %}
 {% endblock %}
